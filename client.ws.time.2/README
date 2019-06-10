@@ -1,3 +1,6 @@
 # Description
 
-This project is a simple DOCUMENT style SOAP WS that returns the current time as a string or long.
+This project is a simple client for SOAP WS Time 2 in project ws.time.2.
+
+Source code was generated through command "wsimport -p fr.ndaniel.client -keep http://localhost:9090/time?wsdl" after locally publishing 
+Time 2 web service with fr.daniel.ws.TimeServerPublisher in project ws.time.2.
