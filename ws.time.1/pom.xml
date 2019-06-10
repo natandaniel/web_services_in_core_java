@@ -4,7 +4,7 @@
   <artifactId>ws.time.1</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>Time</name>
+  <name>Time 1</name>
   <description>RPC Style SOAP WS that provides the current date and time</description>
   
   <dependencies>
