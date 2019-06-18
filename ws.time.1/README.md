@@ -23,5 +23,9 @@ From within src/main/java, at the command prompt :
  - compile the web service code with : javac fr/ndaniel/ws/*.java
  
  - run the web service publisher : java fr.daniel.ws.TimeServerPublisher
+ 
+ - check service contract in browser : http://localhost:9080/time?wsdl
+ 
+ - or check service contract at the command prompt : curl http://localhost:9080/time?wsdl
 
 
