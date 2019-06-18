@@ -1,11 +1,11 @@
-package server;
+package time;
 
 import java.util.Date;
 
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "fr.ndaniel.ws.TimeServer")
-public class TimeServerImpl implements TimeServer {
+@WebService(endpointInterface = "server.TimeServer")
+public class TimeServiceImpl implements TimeService {
 
 	public String getTimeAsString() {
 		return new Date().toString();
