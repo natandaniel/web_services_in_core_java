@@ -13,6 +13,6 @@ public interface TimeServer {
 	String getTimeAsString();
 	
 	@WebMethod
-	long getTimeAsLong();
+	long getTimeAsLong(); // elapsed milliseconds from midnight January 1, 1970 GMT.
 
 }
