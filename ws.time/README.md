@@ -1,4 +1,4 @@
-# Description
+# Time
 
 A simple illustration of an RPC style SOAP Web Service, provides the current time as a string or long.
 
