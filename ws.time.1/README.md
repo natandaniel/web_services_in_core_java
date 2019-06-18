@@ -13,3 +13,5 @@ or
 Core Java 5 + the METRO release of JAX-WS : https://javaee.github.io/metro/download
 
 # Starting the service
+
+javac fr/ndaniel/ws/*.java
