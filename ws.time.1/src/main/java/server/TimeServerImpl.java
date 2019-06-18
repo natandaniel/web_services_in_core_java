@@ -1,4 +1,4 @@
-package fr.ndaniel.ws;
+package server;
 
 import java.util.Date;
 

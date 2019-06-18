@@ -1,4 +1,4 @@
-package fr.ndaniel.ws;
+package server;
 
 import javax.xml.ws.Endpoint;
 
