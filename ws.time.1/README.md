@@ -9,9 +9,17 @@ Service Implementation Bean : TimeServerImpl.java
 # Minimum requirements to run the example
 
 Core Java 6 (includes Java Api for XML Web Services - JAX-WS 2.x)
-or 
+
+or
+
 Core Java 5 + the METRO release of JAX-WS : https://javaee.github.io/metro/download
 
 # Starting the service
 
-javac fr/ndaniel/ws/*.java
+From within src/main/java, at the command prompt : 
+
+ - compile the web service code with : javac fr/ndaniel/ws/*.java
+ 
+ - run the web service publisher : java fr.daniel.ws.TimeServerPublisher
+
+
