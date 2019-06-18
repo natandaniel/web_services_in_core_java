@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "server.TimeServer")
+@WebService(endpointInterface = "time.TimeService")
 public class TimeServiceImpl implements TimeService {
 
 	public String getTimeAsString() {
