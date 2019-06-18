@@ -18,11 +18,9 @@ Core Java 5 + the METRO release of JAX-WS : https://javaee.github.io/metro/downl
 
 # Starting the service
 
-From within src/main/java, at the command prompt : 
-
- - compile the web service code with : javac fr/ndaniel/ws/*.java
+ - compile the web service code with : javac server/*.java
  
- - run the web service publisher : java fr.daniel.ws.TimeServerPublisher
+ - run the web service publisher : java server.TimeServerPublisher
  
  - check service contract in browser : http://localhost:9080/time?wsdl
  
