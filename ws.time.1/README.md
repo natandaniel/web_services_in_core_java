@@ -4,7 +4,10 @@ This project is a simple illustration of an RPC style SOAP Web Service.
 The service provides the current time as a string or long.
 
 Service Endpoint Interface : TimeServer.java
+
 Service Implementation Bean : TimeServerImpl.java
+
+Service publisher : TimeServerPublisher.java
 
 # Minimum requirements to run the example
 
