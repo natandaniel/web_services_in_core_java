@@ -1,7 +1,6 @@
 # Description
 
-This project is a simple illustration of an RPC style SOAP Web Service.
-The service provides the current time as a string or long.
+A simple illustration of an RPC style SOAP Web Service, provides the current time as a string or long.
 
 Service Endpoint Interface : TimeServer.java
 
