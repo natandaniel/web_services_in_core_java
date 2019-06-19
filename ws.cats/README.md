@@ -2,8 +2,6 @@
 
 A simple illustration of a DOCUMENT style SOAP Web Service, provides a cat's caracteristics by breed.
 
-Expected input, "british shorthair". Other input will cause an error message.
-
 Service Endpoint Interface : CatsService.java
 
 Service Implementation Bean : CatsServiceImpl.java
