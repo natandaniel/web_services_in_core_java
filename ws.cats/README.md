@@ -2,23 +2,21 @@
 
 A simple illustration of a DOCUMENT style SOAP Web Service, provides a cat's caracteristics by breed.
 
-Service Endpoint Interface : CatsService.java
+	Service Endpoint Interface : CatsService.java
 
-Service Implementation Bean : CatsServiceImpl.java
+	Service Implementation Bean : CatsServiceImpl.java
 
-Service publisher : CatsServicePublisher.java
+	Service publisher : CatsServicePublisher.java
 
-Test client : CatsClient.java + generated code through wsimport utility 
+	Test client : CatsClient.java + generated code through wsimport utility 
 
-(at path/to/project/folder/src/main/java : wsimport -p client -keep http://localhost:9081/ws/cats?wsdl)
+	(at path/to/project/folder/src/main/java : wsimport -p client -keep http://localhost:9081/ws/cats?wsdl)
+
+Note : I have manually added a SOAP handler to monitor the outbound SOAP requests client side. In order to configure the client with my handler, I have added the @HandlerChain annotation in my client service stub generated through wsimport. If you decide to regenerate the client Java artifcats, make sure to add the annotation with the file attribute pointing to the handlers.xml file.
 
 # Minimum requirements to run the example
 
-Core Java 6 (includes Java Api for XML Web Services - JAX-WS 2.x)
-
-or
-
-Core Java 5 + the METRO release of JAX-WS : https://javaee.github.io/metro/download
+Core Java 6
 
 # Cmd line instructions to run and test the service
 
