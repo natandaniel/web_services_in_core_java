@@ -13,11 +13,10 @@ public class CatsServiceImpl implements CatsService {
 	};
 
 	public Cat getCatInfo(String breed) throws Exception {
-
-		switch (breed) {
-		case "british shorthair":
+		
+		if("british shorthair".equals(breed)) {
 			return britishShorthair;
-		default:
+		}else {
 			throw new Exception("Ooops ! cat breed unknown !");
 		}
 	}
