@@ -1,6 +1,6 @@
 # Cats
 
-A simple illustration of a DOCUMENT style SOAP Web Service, provides a cat's caracteristics by breed.
+A simple illustration of a DOCUMENT style SOAP Web Service, provides the British Shorthair's main caracteristics (for those wondering, its a cat !)
 
 	Service Endpoint Interface : CatsService.java
 
@@ -16,22 +16,22 @@ Note : I have manually added a SOAP handler to monitor the outbound SOAP request
 
 # Minimum requirements to run the example
 
-Core Java 6
+	Core Java 6
 
 # Cmd line instructions to run and test the service
 
- - cd path/to/project/folder/src/main/java
+ 	cd path/to/project/folder/src/main/java
 
- - compile the web service code with : javac cats/*.java
+ 	compile the web service server code with : javac cats/*.java
  
- - generate the required Java artifacts with : wsgen -cp . cats.CatsServiceImpl
+ 	generate the required Java artifacts with : wsgen -cp . cats.CatsServiceImpl
  
- - run the web service publisher : java cats.CatsServicePublisher
+ 	run the web service publisher : java cats.CatsServicePublisher
  
- - check service contract in browser : http://localhost:9081/ws/cats?wsdl
+  	optional : check service contract in browser : http://localhost:9081/ws/cats?wsdl
  
- - or check service contract at the command prompt : curl http://localhost:9081/ws/cats?wsdl
+ 	optional : or check service contract at the command prompt : curl http://localhost:9081/ws/cats?wsdl
  
- - run client : java cats.CatsClient
+ 	compile the web service client code with
 
 
