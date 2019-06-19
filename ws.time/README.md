@@ -2,7 +2,7 @@
 
 A simple illustration of an RPC style SOAP Web Service, provides the current time as a string or long.
 
- Service Endpoint Interface : TimeService.java
+ 	Service Endpoint Interface : TimeService.java
 
 	Service Implementation Bean : TimeServiceImpl.java
 
