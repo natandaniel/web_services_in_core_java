@@ -18,14 +18,12 @@ A simple illustration of an RPC style SOAP Web Service, provides the current tim
 
  	cd path/to/project/folder/src/main/java
 
- 	compile the web service code with : javac time/*.java
+ 	compile the web service server/client code : javac time/*.java
  
 	run the web service publisher : java time.TimeServicePublisher
+	
+	optional : check service contract in browser : http://localhost:9080/ws/time?wsdl
  
- 	check service contract in browser : http://localhost:9080/ws/time?wsdl
+ 	optional : or check service contract at the command prompt : curl http://localhost:9080/ws/time?wsdl
  
- 	or check service contract at the command prompt : curl http://localhost:9080/ws/time?wsdl
- 
- - run client : java time.TimeClient
-
-
+ 	run client : java time.TimeClient
