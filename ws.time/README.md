@@ -2,33 +2,29 @@
 
 A simple illustration of an RPC style SOAP Web Service, provides the current time as a string or long.
 
-Service Endpoint Interface : TimeService.java
+ Service Endpoint Interface : TimeService.java
 
-Service Implementation Bean : TimeServiceImpl.java
+	Service Implementation Bean : TimeServiceImpl.java
 
-Service publisher : TimeServicePublisher.java
+	Service publisher : TimeServicePublisher.java
 
-Test client : TimeClient.java
+	Test client : TimeClient.java
 
 # Minimum requirements to run the example
 
-Core Java 6 (includes Java Api for XML Web Services - JAX-WS 2.x)
-
-or
-
-Core Java 5 + the METRO release of JAX-WS : https://javaee.github.io/metro/download
+	Core Java 6
 
 # Cmd line instructions to run and test the service
 
- - cd path/to/project/folder/src/main/java
+ 	cd path/to/project/folder/src/main/java
 
- - compile the web service code with : javac time/*.java
+ 	compile the web service code with : javac time/*.java
  
- - run the web service publisher : java time.TimeServicePublisher
+	run the web service publisher : java time.TimeServicePublisher
  
- - check service contract in browser : http://localhost:9080/ws/time?wsdl
+ 	check service contract in browser : http://localhost:9080/ws/time?wsdl
  
- - or check service contract at the command prompt : curl http://localhost:9080/ws/time?wsdl
+ 	or check service contract at the command prompt : curl http://localhost:9080/ws/time?wsdl
  
  - run client : java time.TimeClient
 
