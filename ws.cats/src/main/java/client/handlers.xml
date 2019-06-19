@@ -3,7 +3,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<javaee:handler-chain>
 		<javaee:handler>
-			<javaee:handler-class>client.handlers.RequestSOAPHandler
+			<javaee:handler-class>client.RequestSOAPHandler
 			</javaee:handler-class>
 		</javaee:handler>
 	</javaee:handler-chain>

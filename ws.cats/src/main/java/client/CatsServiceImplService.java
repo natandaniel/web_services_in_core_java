@@ -20,7 +20,7 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "CatsServiceImplService", targetNamespace = "http://cats/", wsdlLocation = "http://localhost:9081/ws/cats?wsdl")
-@HandlerChain(file="handlers\\handlers.xml")
+@HandlerChain(file="handlers.xml")
 public class CatsServiceImplService
     extends Service
 {
