@@ -22,9 +22,9 @@ Note : I have manually added a SOAP handler to monitor the outbound SOAP request
 
  	cd path/to/project/folder/src/main/java
 
- 	compile the web service server code with : javac cats/*.java
+ 	compile the web service server code : javac cats/*.java
  
- 	generate the required Java artifacts with : wsgen -cp . cats.CatsServiceImpl
+ 	generate the required Java artifacts : wsgen -cp . cats.CatsServiceImpl
  
  	run the web service publisher : java cats.CatsServicePublisher
  
@@ -32,6 +32,8 @@ Note : I have manually added a SOAP handler to monitor the outbound SOAP request
  
  	optional : or check service contract at the command prompt : curl http://localhost:9081/ws/cats?wsdl
  
- 	compile the web service client code with
+ 	compile the web service client code : javac client/*.java
+	
+	run the client : java client.CatsClient
 
 
