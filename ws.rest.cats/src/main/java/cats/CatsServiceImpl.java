@@ -67,7 +67,8 @@ public class CatsServiceImpl implements Provider<Source> {
 
 		String currentWorkingDir = System.getProperty("user.dir");
 		String seperator = System.getProperty("file.separator");
-		String pathToFile = currentWorkingDir + seperator + "cats" + seperator + fileName;
+		String pathToFile = currentWorkingDir + seperator + "src" + seperator + "main" + seperator + "java" + seperator
+				+ "cats" + seperator + fileName;
 
 		int length = (int) new File(pathToFile).length();
 		catsByteArray = new byte[length];
@@ -89,7 +90,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		}
 	}
 
-	private Source doGet(MessageContext msgCtx){
+	private Source doGet(MessageContext msgCtx) {
 
 		String queryString = (String) msgCtx.get(MessageContext.QUERY_STRING);
 
@@ -109,7 +110,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		}
 	}
 
-	private String getValueFromQueryKey(String queryString, String key){
+	private String getValueFromQueryKey(String queryString, String key) {
 
 		String[] keyValuePairs = queryString.split("=");
 
