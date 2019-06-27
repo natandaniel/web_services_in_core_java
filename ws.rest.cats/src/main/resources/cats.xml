@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_211" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="cats.Cat">
+    <void property="avgAgeExpectancy">
+     <int>12</int>
+    </void>
+    <void property="avgWeight">
+     <int>6</int>
+    </void>
+    <void property="coatLength">
+     <string>Short - Medium</string>
+    </void>
+    <void property="colour">
+     <string>All colours (common colour - blue</string>
+    </void>
+    <void property="grooming">
+     <string>Moderate (Weekly)</string>
+    </void>
+    <void property="lifestyle">
+     <string>Indoor</string>
+    </void>
+    <void property="name">
+     <string>British Shorthair</string>
+    </void>
+    <void property="size">
+     <string>Medium</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>
