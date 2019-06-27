@@ -3,6 +3,8 @@ package client;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -18,6 +20,7 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "CatsServiceImplService", targetNamespace = "http://cats/", wsdlLocation = "http://localhost:9081/ws/cats?wsdl")
+@HandlerChain(file="handlers.xml")
 public class CatsServiceImplService
     extends Service
 {
