@@ -53,8 +53,10 @@ public class CatsServiceImpl implements Provider<Source> {
 		}
 
 		MessageContext msgCtx = ctx.getMessageContext();
-		String httpVerb = (String) MessageContext.HTTP_REQUEST_METHOD;
+		String httpVerb = (String) msgCtx.get(MessageContext.HTTP_REQUEST_METHOD);
 		httpVerb = httpVerb.trim().toUpperCase();
+		
+		System.out.println("HTTP verb : " + httpVerb); 
 
 		if ("GET".equals(httpVerb)) {
 			return doGet(msgCtx);
@@ -67,8 +69,8 @@ public class CatsServiceImpl implements Provider<Source> {
 
 		String currentWorkingDir = System.getProperty("user.dir");
 		String seperator = System.getProperty("file.separator");
-		String pathToFile = currentWorkingDir + seperator + "src" + seperator + "main" + seperator + "java" + seperator
-				+ "cats" + seperator + fileName;
+		String pathToFile = currentWorkingDir + seperator + "src" + seperator + "main" + seperator + "resources"
+				+ seperator + seperator + fileName;
 
 		int length = (int) new File(pathToFile).length();
 		catsByteArray = new byte[length];
