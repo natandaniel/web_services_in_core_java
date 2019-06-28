@@ -43,6 +43,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		catsMap = Collections.synchronizedMap(new HashMap<String, Cat>());
 		readCatsXmlFileToByteArray();
 		deserializeFromXmlBytesToCats();
+		
+		catsMap.forEach((k,v)->System.out.println("key : " + k + " value : " + v));
 	}
 
 	@Override
@@ -101,6 +103,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		} else {
 
 			String nameValue = getValueFromQueryKey(queryString, "name");
+			
+			System.out.println("name value : " + nameValue);
 
 			Cat cat = catsMap.get(nameValue);
 
@@ -124,11 +128,18 @@ public class CatsServiceImpl implements Provider<Source> {
 	}
 
 	private ByteArrayInputStream serializeFromCatToXmlBytes(Object cat) {
+		
+		Cat theCat = (Cat) cat;
+		
+		System.out.println("Serializing " + theCat.getName());
 
 		try (ByteArrayOutputStream stream = new ByteArrayOutputStream(); XMLEncoder encoder = new XMLEncoder(stream);) {
-			encoder.writeObject(cat);
-			return new ByteArrayInputStream(stream.toByteArray());
+			encoder.writeObject(theCat);
+			ByteArrayInputStream result = new ByteArrayInputStream(stream.toByteArray());
+			System.out.print("serializeFromCatToXmlBytes : OK");
+			return result;
 		} catch (IOException e) {
+			System.out.print("serializeFromCatToXmlBytes : KO");
 			throw new HTTPException(500);
 		}
 	}

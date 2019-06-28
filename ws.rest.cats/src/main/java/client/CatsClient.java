@@ -12,12 +12,24 @@ public class CatsClient {
 	private static final String URL = "http://localhost:9082/ws/rest/cats";
 
 	public static void main(String[] args) {
-		getCats();
+		//getCats();
+		getBritishShorthair();
 	}
 	
 	private static void getCats() {
 		
 		HttpURLConnection connection = getConnection(URL, "GET");
+		try {
+			connection.connect();
+			print(connection);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void getBritishShorthair() {
+		
+		HttpURLConnection connection = getConnection(URL + "?name=British%20Shorthair", "GET");
 		try {
 			connection.connect();
 			print(connection);
@@ -59,10 +71,6 @@ public class CatsClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
-		
-
 		
 		System.out.println(xml);
 		
