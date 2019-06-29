@@ -8,19 +8,10 @@ public class Cat {
 	private String coatLength;
 	private int avgAgeExpectancy;
 	private int avgWeight;
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	private String grooming;
 	private String lifestyle;
 
-	public Cat() {
-	}
+	public Cat() {}
 
 	public Cat(String name, String size, String colour, String coatLength, int avgAgeExpectancy, int avgWeight,
 			String grooming, String lifestyle) {
@@ -33,6 +24,14 @@ public class Cat {
 		this.avgWeight = avgWeight;
 		this.grooming = grooming;
 		this.lifestyle = lifestyle;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getSize() {
@@ -89,5 +88,12 @@ public class Cat {
 
 	public void setLifestyle(String lifestyle) {
 		this.lifestyle = lifestyle;
+	}
+
+	@Override
+	public String toString() {
+		return "Cat [name=" + name + ", size=" + size + ", colour=" + colour + ", coatLength=" + coatLength
+				+ ", avgAgeExpectancy=" + avgAgeExpectancy + ", avgWeight=" + avgWeight + ", grooming=" + grooming
+				+ ", lifestyle=" + lifestyle + "]";
 	}
 }
