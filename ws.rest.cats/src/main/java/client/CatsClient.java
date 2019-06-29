@@ -12,7 +12,7 @@ public class CatsClient {
 	private static final String URL = "http://localhost:9082/ws/rest/cats";
 
 	public static void main(String[] args) {
-		//getCats();
+		getCats();
 		getBritishShorthair();
 	}
 	

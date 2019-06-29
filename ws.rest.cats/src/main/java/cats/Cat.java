@@ -92,7 +92,7 @@ public class Cat {
 
 	@Override
 	public String toString() {
-		return "Cat [name=" + name + ", size=" + size + ", colour=" + colour + ", coatLength=" + coatLength
+		return "[name=" + name + ", size=" + size + ", colour=" + colour + ", coatLength=" + coatLength
 				+ ", avgAgeExpectancy=" + avgAgeExpectancy + ", avgWeight=" + avgWeight + ", grooming=" + grooming
 				+ ", lifestyle=" + lifestyle + "]";
 	}

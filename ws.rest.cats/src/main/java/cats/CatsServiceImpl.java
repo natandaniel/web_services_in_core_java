@@ -44,7 +44,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		readCatsXmlFileToByteArray();
 		deserializeFromXmlBytesToCats();
 		
-		catsMap.forEach((k,v)->System.out.println("key : " + k + " value : " + v));
+		System.out.println("Cats : ");
+		catsMap.forEach((k,v)->System.out.println(v));
 	}
 
 	@Override
@@ -101,12 +102,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		if (queryString == null) {
 			return new StreamSource(new ByteArrayInputStream(catsByteArray));
 		} else {
-
-			String nameValue = getValueFromQueryKey(queryString, "name");
 			
-			System.out.println("name value : " + nameValue);
-
-			Cat cat = catsMap.get(nameValue);
+			Cat cat = catsMap.get(getValueFromQueryKey(queryString, "name"));
 
 			if (cat == null) {
 				throw new HTTPException(404);
@@ -128,18 +125,12 @@ public class CatsServiceImpl implements Provider<Source> {
 	}
 
 	private ByteArrayInputStream serializeFromCatToXmlBytes(Object cat) {
-		
-		Cat theCat = (Cat) cat;
-		
-		System.out.println("Serializing " + theCat.getName());
 
 		try (ByteArrayOutputStream stream = new ByteArrayOutputStream(); XMLEncoder encoder = new XMLEncoder(stream);) {
-			encoder.writeObject(theCat);
-			ByteArrayInputStream result = new ByteArrayInputStream(stream.toByteArray());
-			System.out.print("serializeFromCatToXmlBytes : OK");
-			return result;
+			encoder.writeObject(cat);
+			encoder.flush();
+			return new ByteArrayInputStream(stream.toByteArray());
 		} catch (IOException e) {
-			System.out.print("serializeFromCatToXmlBytes : KO");
 			throw new HTTPException(500);
 		}
 	}
