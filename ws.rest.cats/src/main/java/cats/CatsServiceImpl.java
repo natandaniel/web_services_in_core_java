@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +44,9 @@ public class CatsServiceImpl implements Provider<Source> {
 		catsMap = Collections.synchronizedMap(new HashMap<String, Cat>());
 		readCatsXmlFileToByteArray();
 		deserializeFromXmlBytesToCats();
-		
+
 		System.out.println("Cats : ");
-		catsMap.forEach((k,v)->System.out.println(v));
+		catsMap.forEach((k, v) -> System.out.println(v));
 	}
 
 	@Override
@@ -58,11 +59,13 @@ public class CatsServiceImpl implements Provider<Source> {
 		MessageContext msgCtx = ctx.getMessageContext();
 		String httpVerb = (String) msgCtx.get(MessageContext.HTTP_REQUEST_METHOD);
 		httpVerb = httpVerb.trim().toUpperCase();
-		
-		System.out.println("HTTP verb : " + httpVerb); 
+
+		System.out.println("HTTP verb : " + httpVerb);
 
 		if ("GET".equals(httpVerb)) {
 			return doGet(msgCtx);
+		} else if ("POST".equals(httpVerb)) {
+			return doPost(msgCtx);
 		} else {
 			throw new HTTPException(405);
 		}
@@ -102,7 +105,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		if (queryString == null) {
 			return new StreamSource(new ByteArrayInputStream(catsByteArray));
 		} else {
-			
+
 			Cat cat = catsMap.get(getValueFromQueryKey(queryString, "name"));
 
 			if (cat == null) {
@@ -111,6 +114,10 @@ public class CatsServiceImpl implements Provider<Source> {
 				return new StreamSource(serializeFromCatToXmlBytes(cat));
 			}
 		}
+	}
+	
+	private Source doPost(MessageContext msgCtx) {
+		return null;
 	}
 
 	private String getValueFromQueryKey(String queryString, String key) {
