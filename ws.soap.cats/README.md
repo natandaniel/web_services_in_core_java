@@ -16,7 +16,7 @@ Note : I have manually added a SOAP handler to monitor the outbound SOAP request
 
 # Minimum requirements to run the example
 
-	Core Java 6
+	Core Java 8
 
 # Cmd line instructions to run and test the service
 
