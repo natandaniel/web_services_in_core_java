@@ -1,8 +1,8 @@
 # JAVA/JEE code samples with build and run instructions. 
 
-* ws.soap.time
-* ws.soap.cats
-* ws.rest.cats
+1. ws.soap.time
+1. ws.soap.cats
+1. ws.rest.cats
 
 # ws.soap.time 
 
