@@ -22,5 +22,5 @@ I also added in the mix some SOAP API code with a SOAP handler that can monitor 
 
 A simple illustration of a RESTful Web Service built with core Java 8. 
 
-Performs a GET on the cats.xml resource. An up to date xml representation is transfered back to the client.
+Alows GETs and POSTs on the cats.xml resource. 
 
