@@ -14,7 +14,7 @@ A simple illustration of a DOCUMENT style SOAP Web Service built with JAX-WS.
 
 Describes the British Shorthair cat.
 
-The purpose is to demonstrate how to build such a web service with custom data types using the wsgen utility and how to build client code easing the development of a client for the service with wsimport. 
+The purpose is to demonstrate how to build a SOAP web service when custom data types are used. 
 
 I also added in the mix some SOAP API code with a SOAP handler that can monitor SOAP requests/responses. SOAP handlers are useful not only for monitoring but also for securing the acces to a service through credentials checking etc.
 
