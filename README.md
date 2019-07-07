@@ -1,8 +1,9 @@
 # JAVA/JEE code samples with build and run instructions. 
 
-1. ws.soap.time
-1. ws.soap.cats
-1. ws.rest.cats
+* Code samples :
+  1. ws.soap.time
+  1. ws.soap.cats
+  1. ws.rest.cats
 
 # ws.soap.time 
 
