@@ -14,7 +14,9 @@ A simple illustration of a DOCUMENT style SOAP Web Service built with core Java 
 
 Describes the British Shorthair cat.
 
-The purpose is to demonstrate how to build such a web service with custom data types using the wsgen utility and how to build client code easing the development of a client for the service with wsimport. I also added in the mix some SOAP API code with a SOAP handler that can monitor SOAP requests/responses. SOAP handlers are useful not only for monitoring but also for securing the acces to a service through credentials checking etc.
+The purpose is to demonstrate how to build such a web service with custom data types using the wsgen utility and how to build client code easing the development of a client for the service with wsimport. 
+
+I also added in the mix some SOAP API code with a SOAP handler that can monitor SOAP requests/responses. SOAP handlers are useful not only for monitoring but also for securing the acces to a service through credentials checking etc.
 
 # ws.rest.cats
 
