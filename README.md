@@ -1,6 +1,6 @@
 # JAVA/JEE code samples with build and run instructions. 
 
-# ws.soap.time 
+*# ws.soap.time 
 
 A simple illustration of an **RPC style SOAP** Web Service built with **JAX-WS**. 
 
