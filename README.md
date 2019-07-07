@@ -6,7 +6,7 @@ A simple illustration of an RPC style SOAP Web Service built with core Java 6.
 
 Gives the time.
 
-The purpose is to demonstrate how easily a SOAP web service can be built when only simple data types are used (String, int, ...).
+The purpose is to demonstrate how easily a SOAP web service can be built when only simple data types are used.
 
 # ws.soap.cats 
 
@@ -22,5 +22,5 @@ I also added in the mix some SOAP API code with a SOAP handler that can monitor 
 
 A simple illustration of a RESTful Web Service built with core Java 8. 
 
-Alows GETs and POSTs on the cats.xml resource. 
+Allows GETs and POSTs on the cats.xml resource. 
 
