@@ -14,7 +14,9 @@ A simple illustration of a DOCUMENT style SOAP Web Service built with JAX-WS.
 
 Describes the British Shorthair cat.
 
-The purpose is to demonstrate how to build a SOAP web service when custom data types are used. 
+The purpose is to demonstrate how to build a SOAP web service when custom data types are used. When using one's on Java classes as data types, one must implement a DOCUMENT style service and make use of the wsgen utility to generate the Java artifacts necessary to run the service. These artifcats are whatenable the binding/unbinding of a custom Java datatype class to an XML document.
+
+The wsimport tool comes in handy to generate client side code.
 
 I also added in the mix some SOAP API code with a SOAP handler that can monitor SOAP requests/responses. SOAP handlers are useful not only for monitoring but also for securing the acces to a service through credentials checking etc.
 
