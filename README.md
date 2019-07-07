@@ -23,6 +23,8 @@ I also added in the mix some SOAP API code with a SOAP handler that can monitor 
 A simple illustration of a RESTful Web Service built with core Java 8. 
 
 Allows GETs and POSTs on the cats.xml resource.
+
 One can GET an up to date XML representation of the cats.xml resource.
+
 One can POST a new cat to the service and add a new object to the cats.xml resource.
 
