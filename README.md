@@ -13,7 +13,7 @@ The purpose is to demonstrate how easily a SOAP web service can be built when on
 
 _Requirements_ : **core Java 6**
 
-# 2. ws.soap.cats 
+# 2. [ws.soap.cats](https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats)
 
 A simple illustration of a **DOCUMENT style SOAP** Web Service built with **JAX-WS**.
 
