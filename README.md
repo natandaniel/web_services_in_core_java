@@ -3,7 +3,7 @@
   1. ws.soap.cats : https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats
   1. ws.rest.cats : https://github.com/natandaniel/java_projects/tree/master/ws.rest.cats
 
-# ws.soap.time 
+# 1. ws.soap.time 
 
 A simple illustration of an **RPC style SOAP** Web Service built with **JAX-WS**. 
 
@@ -13,7 +13,7 @@ The purpose is to demonstrate how easily a SOAP web service can be built when on
 
 _Requirements_ : **core Java 6**
 
-# ws.soap.cats 
+# 2. ws.soap.cats 
 
 A simple illustration of a **DOCUMENT style SOAP** Web Service built with **JAX-WS**.
 
@@ -27,7 +27,7 @@ I also added in the mix some **SOAP API** code with a SOAP handler that can moni
 
 _Requirements_ : **core Java 8**
 
-# ws.rest.cats
+# 3. ws.rest.cats
 
 A simple illustration of a **RESTful Web Service** built with **JAX-WS**. 
 
