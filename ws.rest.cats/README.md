@@ -1,10 +1,12 @@
 # Cats
 
-A simple illustration of a RESTful Web Service. For now, only GETs are handled.
+A simple illustration of a RESTful Web Service. For now, only GETs and POSTs are handled.
 
 	Service Implementation Bean : CatsServiceImpl.java
 
 	Service publisher : CatsServicePublisher.java
+	
+	Service resource : cats.xml
 
 	Test client : CatsClient.java 
 
