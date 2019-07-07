@@ -1,6 +1,12 @@
 # Cats
 
-A simple illustration of a RESTful Web Service. For now, only GETs and POSTs are handled.
+A simple illustration of a RESTful Web Service built with core Java 8. 
+
+Allows GETs and POSTs on the cats.xml resource.
+
+One can GET an up to date XML representation of the cats.xml resource.
+
+One can POST a new cat to the service and add a new object to the cats.xml resource.
 
 	Service Implementation Bean : CatsServiceImpl.java
 
@@ -27,5 +33,11 @@ A simple illustration of a RESTful Web Service. For now, only GETs and POSTs are
  	run GET operation in browser : http://localhost:9082/ws/rest/cats?name=British%20Shorthair
  
  	compile the web service client code : javac client/*.java
+	
+	run GET operation in browser : http://localhost:9082/ws/rest/cats
+	
+	run GET operation in browser : http://localhost:9082/ws/rest/cats?name=British%20Shorthair
+	
+	run GET operation in browser : http://localhost:9082/ws/rest/cats?name=TestCat
 
 
