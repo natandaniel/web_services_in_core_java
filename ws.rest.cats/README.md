@@ -10,7 +10,7 @@ A simple illustration of a RESTful Web Service. For now, only GETs are handled.
 
 # Minimum requirements to run the example
 
-	Core Java 8 (use of lambdas)
+	Core Java 8
 
 # Cmd line instructions to run and test the service
 
