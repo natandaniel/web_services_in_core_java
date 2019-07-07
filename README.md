@@ -1,12 +1,8 @@
-# JAVA/JEE code samples with build and run instructions : 
-1. Web Services with core Java
-    1. [ws.soap.time](https://github.com/natandaniel/java_projects/tree/master/ws.soap.time)
+# Web Services in core Java : 
+1. [ws.soap.time](https://github.com/natandaniel/java_projects/tree/master/ws.soap.time)
+1. [ws.soap.cats](https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats)
+1. [ws.rest.cats](https://github.com/natandaniel/java_projects/tree/master/ws.rest.cats)
   
-    1. [ws.soap.cats](https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats)
-  
-    1. [ws.rest.cats](https://github.com/natandaniel/java_projects/tree/master/ws.rest.cats)
-  
-
 ### [ws.soap.time](https://github.com/natandaniel/java_projects/tree/master/ws.soap.time)
 
 A simple illustration of an **RPC style SOAP** Web Service built with **JAX-WS**. 
