@@ -1,6 +1,6 @@
 # Cats
 
-A simple illustration of a RESTful Web Service built with core Java 8. 
+A simple illustration of a RESTful Web Service. 
 
 Allows GETs and POSTs on the cats.xml resource.
 
