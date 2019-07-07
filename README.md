@@ -1,4 +1,4 @@
-# JAVA/JEE code samples with instructions to run and test them. 
+# JAVA/JEE code samples with build and run instructions. 
 
 # ws.soap.time 
 
