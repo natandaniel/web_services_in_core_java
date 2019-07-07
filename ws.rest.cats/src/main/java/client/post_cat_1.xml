@@ -1,0 +1,10 @@
+<create_cat>
+	<name>TestCat</name>
+	<size>Small</size>
+	<colour>Blue</colour>
+	<avgWeight>6</avgWeight>
+	<avgAgeExpectancy>15</avgAgeExpectancy>
+	<coatLength>Short</coatLength>
+	<grooming>Medium</grooming>
+	<lifestyle>Indoors</lifestyle>
+</create_cat>

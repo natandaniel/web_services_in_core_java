@@ -6,7 +6,7 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>RESTful Cats</name>
-	<description>A RESTFul WS that provides information on the British Shorthair cat</description>
+	<description>A RESTFul WS that demonstrates CRUD operations with XML and cats</description>
 
 	<dependencies>
 	</dependencies>
