@@ -10,7 +10,7 @@ The purpose is to demonstrate how easily a SOAP web service can be built when on
 
 # ws.soap.cats 
 
-A simple illustration of a DOCUMENT style SOAP Web Service built with core Java 6.
+A simple illustration of a DOCUMENT style SOAP Web Service built with core Java 8.
 
 Describes the British Shorthair cat.
 
