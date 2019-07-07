@@ -1,4 +1,4 @@
-# This repository holds some of my JAVA/JEE projects. 
+# This repository holds some of my JAVA/JEE projects with instructions to run and test them. 
 
 # ws.soap.time 
 
