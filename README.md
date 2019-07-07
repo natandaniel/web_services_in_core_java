@@ -36,7 +36,7 @@ One can POST a new cat to the service and add a new object to the cats.xml resou
 
 The purpose is to demonstrate how to build a RESTful web service with core Java. Clients and Servers communicate through the HTTP (Hypertext Transfer Protocol) protocol and request/respone messages are contained within the HTTP transport message (in the headers or in the body). No specific format is imposed to the messages as opposed to SOAP web services where messages are SOAP envelopes (XML documents).
 
-In a RESTFul web service (REpresentational State Transfer), one can execute the CRUD operations (CREATE, READ, UPDATE, DELETE) with the appropriate HTTP verbs (POST, GET, PUT, DELETE). These operations must be targeted at a resource server side (any informational item) that is uniquely identified with a URI (Uniform Resource Identifier). The service has to return a relevant representation of the resource (a MIME typed file, could be test/xml, text/plain etc) that captures the current state of the resource.
+In a RESTFul web service (REpresentational State Transfer), one can execute the CRUD operations (CREATE, READ, UPDATE, DELETE) with the appropriate HTTP verbs (POST, GET, PUT, DELETE). These operations must be targeted at a resource server side (any informational item) that is uniquely identified with a URI (Uniform Resource Identifier). The service has to return a relevant representation of the resource (a MIME typed file, could be text/xml, text/plain etc) that captures the current state of the resource.
 
 Requirements : core Java 8
 
