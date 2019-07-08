@@ -24,67 +24,70 @@ public class CatsClient {
 
 	private static final String URL = "http://localhost:9082/ws/rest/cats";
 
+	private static final String GET = "GET";
+	private static final String POST = "POST";
+
 	private static final String POST_CAT_1 = "post_cat_1.xml";
 
 	public static void main(String[] args) throws Exception {
-		//getCats();
-		//getBritishShorthair();
+		getCats();
+		getBritishShorthair();
 
 		postCat1();
 
-		//getCats();
-		//getBritishShorthair();
-		//getCat1();
+		getCats();
+		getBritishShorthair();
+		getCat1();
 	}
 
 	private static void getCats() throws Exception {
-		
+
 		System.out.println("Getting all the cats");
 
 		HttpURLConnection connection = getConnection(URL, "GET");
 		try {
 			connection.connect();
-			print(connection);
+			print(connection, "GET");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static void getBritishShorthair() throws Exception {
-		
+
 		System.out.println("Getting the British Shorthair cat");
 
 		HttpURLConnection connection = getConnection(URL + "?name=British%20Shorthair", "GET");
 		try {
 			connection.connect();
-			print(connection);
+			print(connection, GET);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static void getCat1() throws Exception {
-		
+
 		System.out.println("Getting the TestCat cat");
 
-		HttpURLConnection connection = getConnection(URL + "?name=TestCat", "GET");
+		HttpURLConnection connection = getConnection(URL + "?name=TestCat", GET);
 		try {
 			connection.connect();
-			print(connection);
+			print(connection, GET);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static void postCat1() throws Exception {
-		
+
 		System.out.println("Posting the TestCat cat");
 
-		HttpURLConnection connection = getConnection(URL, "POST");
+		HttpURLConnection connection = getConnection(URL, POST);
 		try {
 			connection.setRequestProperty("payload", readXmlFileToString(getPathToPostCat1XmlFile()));
 			connection.connect();
-			System.out.println("hello");
+			print(connection, POST);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +112,7 @@ public class CatsClient {
 		return connection;
 	}
 
-	private static void print(HttpURLConnection connection) throws Exception {
+	private static void print(HttpURLConnection connection, String httpVerb) throws Exception {
 
 		BufferedReader bufferedReader = null;
 		String xml = "";
@@ -125,11 +128,13 @@ public class CatsClient {
 			e.printStackTrace();
 		}
 
-		System.out.println("raw xml : " + xml);
-		System.out.println("parsed xml : ");
-		parseXml(xml);
-		
-		
+		System.out.println("Response : " + xml);
+
+
+		if ("GET".equals(httpVerb)) {
+			System.out.println("GET - parsed xml : ");
+			parseXml(xml);
+		}
 
 	}
 
@@ -148,7 +153,7 @@ public class CatsClient {
 		String xml = sb.toString();
 		xml = xml.replace("\n", "").replace("\r", "");
 
-		System.out.println("output xml : " + xml);
+		// System.out.println("output xml : " + xml);
 
 		return xml;
 

@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -54,7 +55,7 @@ public class CatsServiceImpl implements Provider<Source> {
 	private List<Cat> catsList;
 	private Map<String, Cat> catsMap;
 
-	public CatsServiceImpl() {
+	public CatsServiceImpl() throws IOException {
 		catsMap = Collections.synchronizedMap(new HashMap<String, Cat>());
 		readCatsXmlFileToByteArray();
 		deserializeFromXmlBytesToCatsObject();
@@ -71,17 +72,10 @@ public class CatsServiceImpl implements Provider<Source> {
 		String httpVerb = (String) msgCtx.get(MessageContext.HTTP_REQUEST_METHOD);
 		httpVerb = httpVerb.trim().toUpperCase();
 
-		System.out.println("HTTP verb : " + httpVerb);
-
 		if ("GET".equals(httpVerb)) {
 			return doGet(msgCtx);
 		} else if ("POST".equals(httpVerb)) {
-			try {
-				return doPost(msgCtx);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new HTTPException(500);
-			}
+			return doPost(msgCtx);
 		} else {
 			throw new HTTPException(405);
 		}
@@ -105,8 +99,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		}
 	}
 
-	private Source doPost(MessageContext msgCtx) throws TransformerFactoryConfigurationError, TransformerException,
-			XPathExpressionException, URISyntaxException, IOException {
+	private Source doPost(MessageContext msgCtx) {
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String, List> request = (Map<String, List>) msgCtx.get(MessageContext.HTTP_REQUEST_HEADERS);
@@ -117,8 +110,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		if (payload == null) {
 			throw new HTTPException(400);
 		}
-		
-		System.out.println("payload : " + payload);
+
+		// System.out.println("payload : " + payload);
 
 		String xml = "";
 
@@ -126,7 +119,7 @@ public class CatsServiceImpl implements Provider<Source> {
 			xml += next.trim();
 		}
 
-		System.out.println("input xml : " + xml);
+		// System.out.println("input xml : " + xml);
 
 		ByteArrayInputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
 
@@ -142,55 +135,67 @@ public class CatsServiceImpl implements Provider<Source> {
 		DOMResult dom = new DOMResult();
 		Transformer trans;
 
-		trans = TransformerFactory.newInstance().newTransformer();
-		trans.transform(new StreamSource(xmlStream), dom);
+		try {
+			trans = TransformerFactory.newInstance().newTransformer();
+			trans.transform(new StreamSource(xmlStream), dom);
+			URI nsUri = new URI("create_cat");
 
-		URI nsUri = new URI("create_cat");
+			XPathFactory xpf = XPathFactory.newInstance();
+			XPath xp = xpf.newXPath();
 
-		XPathFactory xpf = XPathFactory.newInstance();
-		XPath xp = xpf.newXPath();
+			xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
 
-		xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
+			name = xp.evaluate("/create_cat/name", dom.getNode());
+			size = xp.evaluate("/create_cat/size", dom.getNode());
+			colour = xp.evaluate("/create_cat/colour", dom.getNode());
+			avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
+			avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
+			coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
+			grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
+			lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
+			Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy),
+					Integer.valueOf(avgWeight), grooming, lifestyle);
 
-		name = xp.evaluate("/create_cat/name", dom.getNode());
-		size = xp.evaluate("/create_cat/size", dom.getNode());
-		colour = xp.evaluate("/create_cat/colour", dom.getNode());
-		avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
-		avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
-		coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
-		grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
-		lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
-
-		Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy), Integer.valueOf(avgWeight),
-				grooming, lifestyle);
-
-		catsList.add(cat);
-		catsMap.put(cat.getName(), cat);
+			catsList.add(cat);
+			catsMap.put(cat.getName(), cat);
+			//catsMap.forEach((k, v) -> System.out.println(v));
+			
+			serializeFromCatsObjectToXmlResourceFile(catsList);
+			readCatsXmlFileToByteArray();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		}
 		
-		catsMap.forEach((k, v) -> System.out.println(v));
-
-		serializeFromCatsObjectToXmlResourceFile(catsList);
-		readCatsXmlFileToByteArray();
-
-		return null;
+		return responseToClient("Cat posted !");
+	}
+	
+	private StreamSource responseToClient(String msg) {
+		
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		XMLEncoder enc = new XMLEncoder(stream);
+		enc.writeObject(msg);
+		enc.close();
+		
+		return new StreamSource(new ByteArrayInputStream(stream.toByteArray()));
 	}
 
-	private void readCatsXmlFileToByteArray() {
+	private void readCatsXmlFileToByteArray() throws IOException {
 
 		int length = (int) new File(getPathToCatsXmlResourceFile()).length();
 		catsByteArray = new byte[length];
 
 		try (FileInputStream fileInputStream = new FileInputStream(getPathToCatsXmlResourceFile())) {
 			fileInputStream.read(catsByteArray);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	@SuppressWarnings("unchecked")
 	private void deserializeFromXmlBytesToCatsObject() {
+
+		//System.out.println("Deserializing cats.xml resource file into in memory Java object ...");
+
 		try (XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(catsByteArray))) {
 			catsList = (List<Cat>) decoder.readObject();
 			catsList.forEach(cat -> catsMap.put(cat.getName(), cat));
@@ -242,8 +247,8 @@ public class CatsServiceImpl implements Provider<Source> {
 		String seperator = System.getProperty("file.separator");
 		String path = currentWorkingDir + seperator + "src" + seperator + "main" + seperator + "resources" + seperator
 				+ FILE_NAME;
-		
-		//System.out.println(path);
+
+		// System.out.println(path);
 		return path;
 	}
 }
