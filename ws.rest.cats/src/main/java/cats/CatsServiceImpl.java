@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +71,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		String httpVerb = (String) msgCtx.get(MessageContext.HTTP_REQUEST_METHOD);
 		httpVerb = httpVerb.trim().toUpperCase();
 
-		//System.out.println("HTTP verb : " + httpVerb);
+		System.out.println("HTTP verb : " + httpVerb);
 
 		if ("GET".equals(httpVerb)) {
 			return doGet(msgCtx);
@@ -117,7 +118,7 @@ public class CatsServiceImpl implements Provider<Source> {
 			throw new HTTPException(400);
 		}
 		
-		//System.out.println("payload : " + payload);
+		System.out.println("payload : " + payload);
 
 		String xml = "";
 
@@ -125,7 +126,7 @@ public class CatsServiceImpl implements Provider<Source> {
 			xml += next.trim();
 		}
 
-		//System.out.println("input xml : " + xml);
+		System.out.println("input xml : " + xml);
 
 		ByteArrayInputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
 
@@ -166,7 +167,7 @@ public class CatsServiceImpl implements Provider<Source> {
 		catsList.add(cat);
 		catsMap.put(cat.getName(), cat);
 		
-		//catsMap.forEach((k, v) -> System.out.println(v));
+		catsMap.forEach((k, v) -> System.out.println(v));
 
 		serializeFromCatsObjectToXmlResourceFile(catsList);
 		readCatsXmlFileToByteArray();
@@ -209,9 +210,13 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	private ByteArrayInputStream serializeFromCatObjectToXmlBytes(Object cat) {
 
-		try (ByteArrayOutputStream stream = new ByteArrayOutputStream(); XMLEncoder encoder = new XMLEncoder(stream);) {
-			encoder.writeObject(cat);
-			encoder.flush();
+		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+			XMLEncoder encoder = new XMLEncoder(stream);
+			Cat myCat = (Cat) cat;
+			List<Cat> list = new ArrayList<Cat>();
+			list.add(myCat);
+			encoder.writeObject(list);
+			encoder.close();
 			return new ByteArrayInputStream(stream.toByteArray());
 		} catch (IOException e) {
 			throw new HTTPException(500);
@@ -226,7 +231,6 @@ public class CatsServiceImpl implements Provider<Source> {
 
 		XMLEncoder enc = new XMLEncoder(out);
 		enc.writeObject(cats);
-		enc.flush();
 		enc.close();
 		out.close();
 
