@@ -31,11 +31,13 @@ _Requirements_ : **core Java 8**
 
 A simple illustration of a **RESTful Web Service** built with **JAX-WS**. 
 
-Allows GETs and POSTs on the cats.xml resource.
+Allows GETs, POSTs and DELETEs on the cats.xml resource.
 
 One can GET an up to date XML representation of the cats.xml resource.
 
 One can POST a new cat to the service and add a new object to the cats.xml resource.
+
+One can DELETE a cat from the server side resource cats.xml file.
 
 The purpose is to demonstrate how to build a RESTful (**REpresentational State Transfer**) web service with core Java. Clients and Servers communicate through the **HTTP (Hypertext Transfer Protocol)** protocol and request/respone messages are contained within the HTTP transport message (in the headers or in the body). No specific format is imposed to the messages as opposed to SOAP web services where messages are SOAP envelopes (XML documents).
 
