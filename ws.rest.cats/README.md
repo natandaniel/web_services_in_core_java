@@ -2,11 +2,13 @@
 
 A simple illustration of a RESTful Web Service. 
 
-Allows GETs and POSTs on the cats.xml resource.
+Allows GETs, POSTs and DELETEs on the cats.xml resource.
 
 One can GET an up to date XML representation of the cats.xml resource.
 
 One can POST a new cat to the service and add a new object to the cats.xml resource.
+
+One can DELETE a cat from the server side resource cats.xml file.
 
 	Service Implementation Bean : CatsServiceImpl.java
 
