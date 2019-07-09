@@ -51,6 +51,15 @@ public class CatsServiceImpl implements Provider<Source> {
 	private static final String FILE_NAME = "cats.xml";
 	private static final String PAYLOAD = "payload";
 
+	private static final String GET = "GET";
+	private static final String POST = "POST";
+	private static final String PUT = "PUT";
+	private static final String DELETE = "DELETE";
+
+	private enum KEYS {
+		name, newName, size, colour, avgWeight, avgAgeExpectancy, coatLength, grooming, lifestyle
+	}
+
 	private byte[] catsByteArray;
 	private List<Cat> catsList;
 	private Map<String, Cat> catsMap;
@@ -58,7 +67,7 @@ public class CatsServiceImpl implements Provider<Source> {
 	public CatsServiceImpl() throws IOException {
 		catsMap = Collections.synchronizedMap(new HashMap<String, Cat>());
 		readCatsXmlFileToByteArray();
-		deserializeFromXmlBytesToCatsObject();
+		deserializeFromXmlBytesToCatsList();
 	}
 
 	@Override
@@ -72,10 +81,14 @@ public class CatsServiceImpl implements Provider<Source> {
 		String httpVerb = (String) msgCtx.get(MessageContext.HTTP_REQUEST_METHOD);
 		httpVerb = httpVerb.trim().toUpperCase();
 
-		if ("GET".equals(httpVerb)) {
+		if (GET.equals(httpVerb)) {
 			return doGet(msgCtx);
-		} else if ("POST".equals(httpVerb)) {
+		} else if (POST.equals(httpVerb)) {
 			return doPost(msgCtx);
+		} else if (PUT.equals(httpVerb)) {
+			return doPut(msgCtx);
+		} else if (DELETE.equals(httpVerb)) {
+			return doDelete(msgCtx);
 		} else {
 			throw new HTTPException(405);
 		}
@@ -89,12 +102,12 @@ public class CatsServiceImpl implements Provider<Source> {
 			return new StreamSource(new ByteArrayInputStream(catsByteArray));
 		} else {
 
-			Cat cat = catsMap.get(getValueFromQueryKey(queryString, "name"));
+			Cat cat = catsMap.get(getValueFromQueryKey(queryString, KEYS.name.toString()));
 
 			if (cat == null) {
 				throw new HTTPException(404);
 			} else {
-				return new StreamSource(serializeFromCatObjectToXmlBytes(cat));
+				return new StreamSource(serializeFromCatToXmlBytes(cat));
 			}
 		}
 	}
@@ -135,81 +148,185 @@ public class CatsServiceImpl implements Provider<Source> {
 		DOMResult dom = new DOMResult();
 		Transformer trans;
 
+		try {
+			trans = TransformerFactory.newInstance().newTransformer();
+			trans.transform(new StreamSource(xmlStream), dom);
+			URI nsUri = new URI("create_cat");
+
+			XPathFactory xpf = XPathFactory.newInstance();
+			XPath xp = xpf.newXPath();
+
+			xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
+
+			name = xp.evaluate("/create_cat/name", dom.getNode());
+			size = xp.evaluate("/create_cat/size", dom.getNode());
+			colour = xp.evaluate("/create_cat/colour", dom.getNode());
+			avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
+			avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
+			coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
+			grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
+			lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
+
+			Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy),
+					Integer.valueOf(avgWeight), grooming, lifestyle);
+
+			if (catsMap.containsKey(cat.getName())) {
+				throw new HTTPException(400);
+			}
+
+			catsList.add(cat);
+			catsMap.put(cat.getName(), cat);
+			// catsMap.forEach((k, v) -> System.out.println(v));
+
+			serializeCatsListToXmlFile(catsList);
+			readCatsXmlFileToByteArray();
+		} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		} catch (TransformerException e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			throw new HTTPException(500);
+		}
+
+		return responseToClient("Cat created!");
+	}
+
+	private Source doPut(MessageContext msgCtx) {
+		String queryString = (String) msgCtx.get(MessageContext.QUERY_STRING);
+
+		if (queryString == null) {
+			throw new HTTPException(403);
+		} else {
+
+			String name = getValueFromQueryKey(queryString, KEYS.name.toString());
+
+			if (name == null) {
+				throw new HTTPException(403);
+			}
+
+			if (!catsMap.containsKey(name)) {
+				throw new HTTPException(404);
+			}
+
+			Cat cat = catsMap.get(name);
+
+			catsList.remove(cat);
+			catsMap.remove(cat);
+
+			String newName = getValueFromQueryKey(queryString, KEYS.newName.toString());
+			String size = getValueFromQueryKey(queryString, KEYS.size.toString());
+			String colour = getValueFromQueryKey(queryString, KEYS.colour.toString());
+			String avgWeight = getValueFromQueryKey(queryString, KEYS.avgWeight.toString());
+			String avgAgeExpectancy = getValueFromQueryKey(queryString, KEYS.avgAgeExpectancy.toString());
+			String coatLength = getValueFromQueryKey(queryString, KEYS.coatLength.toString());
+			String grooming = getValueFromQueryKey(queryString, KEYS.grooming.toString());
+			String lifestyle = getValueFromQueryKey(queryString, KEYS.lifestyle.toString());
+
+			cat.setName(newName == null ? name : newName);
+
+			if (size != null) {
+				cat.setSize(size);
+			}
+
+			if (colour != null) {
+				cat.setColour(colour);
+			}
+
+			if (avgWeight != null) {
+				cat.setAvgWeight(Integer.valueOf(avgWeight));
+			}
+
+			if (avgAgeExpectancy != null) {
+				cat.setAvgAgeExpectancy(Integer.valueOf(avgAgeExpectancy));
+			}
+
+			if (coatLength != null) {
+				cat.setCoatLength(coatLength);
+			}
+
+			if (grooming != null) {
+				cat.setGrooming(grooming);
+			}
+
+			if (lifestyle != null) {
+				cat.setLifestyle(lifestyle);
+			}
+
+			catsList.add(cat);
+
 			try {
-				trans = TransformerFactory.newInstance().newTransformer();
-				trans.transform(new StreamSource(xmlStream), dom);
-				URI nsUri = new URI("create_cat");
-
-				XPathFactory xpf = XPathFactory.newInstance();
-				XPath xp = xpf.newXPath();
-
-				xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
-
-				name = xp.evaluate("/create_cat/name", dom.getNode());
-				size = xp.evaluate("/create_cat/size", dom.getNode());
-				colour = xp.evaluate("/create_cat/colour", dom.getNode());
-				avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
-				avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
-				coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
-				grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
-				lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
-				Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy),
-						Integer.valueOf(avgWeight), grooming, lifestyle);
-				
-				if(catsMap.containsKey(cat.getName())) {
-					throw new HTTPException(400);
-				}
-
-				catsList.add(cat);
-				catsMap.put(cat.getName(), cat);
-				//catsMap.forEach((k, v) -> System.out.println(v));
-				
-				serializeFromCatsObjectToXmlResourceFile(catsList);
+				serializeCatsListToXmlFile(catsList);
 				readCatsXmlFileToByteArray();
-			} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
-				e.printStackTrace();
-				throw new HTTPException(500);
-			} catch (TransformerException e) {
-				e.printStackTrace();
-				throw new HTTPException(500);
 			} catch (IOException e) {
-				e.printStackTrace();
-				throw new HTTPException(500);
-			} catch (XPathExpressionException e) {				
-				e.printStackTrace();
-				throw new HTTPException(500);
-			} catch (URISyntaxException e) {				
 				e.printStackTrace();
 				throw new HTTPException(500);
 			}
 
-		return responseToClient("Cat created!");
+			return responseToClient("updated cat " + cat.getName());
+		}
+
 	}
-	
+
+	private Source doDelete(MessageContext msgCtx) {
+		String query = (String) msgCtx.get(MessageContext.QUERY_STRING);
+
+		if (query == null) {
+			throw new HTTPException(403);
+		} else {
+			String name = getValueFromQueryKey(query, KEYS.name.toString());
+
+			if (!catsMap.containsKey(name)) {
+				throw new HTTPException(404);
+			}
+
+			Cat cat = catsMap.get(name);
+			catsList.remove(cat);
+			catsMap.remove(name);
+
+			try {
+				serializeCatsListToXmlFile(catsList);
+				readCatsXmlFileToByteArray();
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new HTTPException(500);
+			}
+
+			return responseToClient(name + " deleted from server");
+		}
+
+	}
+
 	private StreamSource responseToClient(String msg) {
-		
+
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		XMLEncoder enc = new XMLEncoder(stream);
 		enc.writeObject(msg);
 		enc.close();
-		
+
 		return new StreamSource(new ByteArrayInputStream(stream.toByteArray()));
 	}
 
 	private void readCatsXmlFileToByteArray() throws IOException {
 
-		int length = (int) new File(getPathToCatsXmlResourceFile()).length();
+		int length = (int) new File(getPathToCatsXmlFile()).length();
 		catsByteArray = new byte[length];
 
-		try (FileInputStream fileInputStream = new FileInputStream(getPathToCatsXmlResourceFile())) {
+		try (FileInputStream fileInputStream = new FileInputStream(getPathToCatsXmlFile())) {
 			fileInputStream.read(catsByteArray);
-		} 
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void deserializeFromXmlBytesToCatsObject() {
-
-		//System.out.println("Deserializing cats.xml resource file into in memory Java object ...");
+	private void deserializeFromXmlBytesToCatsList() {
 
 		try (XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(catsByteArray))) {
 			catsList = (List<Cat>) decoder.readObject();
@@ -219,16 +336,25 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	private String getValueFromQueryKey(String queryString, String key) {
 
-		String[] keyValuePairs = queryString.split("=");
+		System.out.println(queryString);
 
-		if (!key.equalsIgnoreCase(keyValuePairs[0])) {
-			throw new HTTPException(400);
-		} else {
-			return keyValuePairs[1].trim();
+		String[] keyValuePairs = queryString.split("&");
+
+		String value = null;
+
+		for (int i = 0; i < keyValuePairs.length; i++) {
+			if (key.equals(keyValuePairs[i].split("=")[0])) {
+				System.out.println(keyValuePairs[i].split("=")[0]);
+				value = keyValuePairs[i].split("=")[1];
+				System.out.println(value);
+				break;
+			}
 		}
+
+		return value;
 	}
 
-	private ByteArrayInputStream serializeFromCatObjectToXmlBytes(Object cat) {
+	private ByteArrayInputStream serializeFromCatToXmlBytes(Object cat) {
 
 		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
 			XMLEncoder encoder = new XMLEncoder(stream);
@@ -243,9 +369,9 @@ public class CatsServiceImpl implements Provider<Source> {
 		}
 	}
 
-	private void serializeFromCatsObjectToXmlResourceFile(List<Cat> cats) throws IOException {
+	private void serializeCatsListToXmlFile(List<Cat> cats) throws IOException {
 
-		String path = getPathToCatsXmlResourceFile();
+		String path = getPathToCatsXmlFile();
 
 		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path));
 
@@ -256,14 +382,12 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	}
 
-	private String getPathToCatsXmlResourceFile() {
+	private String getPathToCatsXmlFile() {
 
 		String currentWorkingDir = System.getProperty("user.dir");
 		String seperator = System.getProperty("file.separator");
 		String path = currentWorkingDir + seperator + "src" + seperator + "main" + seperator + "resources" + seperator
 				+ FILE_NAME;
-
-		// System.out.println(path);
 		return path;
 	}
 }

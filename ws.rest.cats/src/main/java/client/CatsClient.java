@@ -26,18 +26,18 @@ public class CatsClient {
 
 	private static final String GET = "GET";
 	private static final String POST = "POST";
+	private static final String DELETE = "DELETE";
 
 	private static final String POST_CAT_1 = "post_cat_1.xml";
 
 	public static void main(String[] args) throws Exception {
 		getCats();
 		getBritishShorthair();
-
-		postCat1();
-
+		postTestCat();
+		getTestCat();
 		getCats();
-		getBritishShorthair();
-		getCat1();
+		deleteTestCat();
+		getCats();
 	}
 
 	private static void getCats() throws Exception {
@@ -66,7 +66,7 @@ public class CatsClient {
 		}
 	}
 
-	private static void getCat1() throws Exception {
+	private static void getTestCat() throws Exception {
 
 		System.out.println("Getting the TestCat cat");
 
@@ -79,7 +79,7 @@ public class CatsClient {
 		}
 	}
 
-	private static void postCat1() throws Exception {
+	private static void postTestCat() throws Exception {
 
 		System.out.println("Posting the TestCat cat");
 
@@ -88,6 +88,20 @@ public class CatsClient {
 			connection.setRequestProperty("payload", readXmlFileToString(getPathToPostCat1XmlFile()));
 			connection.connect();
 			print(connection, POST);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void deleteTestCat() throws Exception {
+
+		System.out.println("deleting the TestCat cat");
+
+		HttpURLConnection connection = getConnection(URL + "?name=TestCat", DELETE);
+		try {
+			connection.connect();
+			print(connection, DELETE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +143,6 @@ public class CatsClient {
 		}
 
 		System.out.println("Response : " + xml);
-
 
 		if ("GET".equals(httpVerb)) {
 			System.out.println("GET - parsed xml : ");
