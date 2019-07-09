@@ -135,40 +135,55 @@ public class CatsServiceImpl implements Provider<Source> {
 		DOMResult dom = new DOMResult();
 		Transformer trans;
 
-		try {
-			trans = TransformerFactory.newInstance().newTransformer();
-			trans.transform(new StreamSource(xmlStream), dom);
-			URI nsUri = new URI("create_cat");
+			try {
+				trans = TransformerFactory.newInstance().newTransformer();
+				trans.transform(new StreamSource(xmlStream), dom);
+				URI nsUri = new URI("create_cat");
 
-			XPathFactory xpf = XPathFactory.newInstance();
-			XPath xp = xpf.newXPath();
+				XPathFactory xpf = XPathFactory.newInstance();
+				XPath xp = xpf.newXPath();
 
-			xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
+				xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
 
-			name = xp.evaluate("/create_cat/name", dom.getNode());
-			size = xp.evaluate("/create_cat/size", dom.getNode());
-			colour = xp.evaluate("/create_cat/colour", dom.getNode());
-			avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
-			avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
-			coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
-			grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
-			lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
-			Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy),
-					Integer.valueOf(avgWeight), grooming, lifestyle);
+				name = xp.evaluate("/create_cat/name", dom.getNode());
+				size = xp.evaluate("/create_cat/size", dom.getNode());
+				colour = xp.evaluate("/create_cat/colour", dom.getNode());
+				avgWeight = xp.evaluate("/create_cat/avgWeight", dom.getNode());
+				avgAgeExpectancy = xp.evaluate("/create_cat/avgAgeExpectancy", dom.getNode());
+				coatLength = xp.evaluate("/create_cat/coatLength", dom.getNode());
+				grooming = xp.evaluate("/create_cat/grooming", dom.getNode());
+				lifestyle = xp.evaluate("/create_cat/lifestyle", dom.getNode());
+				Cat cat = new Cat(name, size, colour, coatLength, Integer.valueOf(avgAgeExpectancy),
+						Integer.valueOf(avgWeight), grooming, lifestyle);
+				
+				if(catsMap.containsKey(cat.getName())) {
+					throw new HTTPException(400);
+				}
 
-			catsList.add(cat);
-			catsMap.put(cat.getName(), cat);
-			//catsMap.forEach((k, v) -> System.out.println(v));
-			
-			serializeFromCatsObjectToXmlResourceFile(catsList);
-			readCatsXmlFileToByteArray();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new HTTPException(500);
-		}
-		
-		return responseToClient("Cat posted !");
+				catsList.add(cat);
+				catsMap.put(cat.getName(), cat);
+				//catsMap.forEach((k, v) -> System.out.println(v));
+				
+				serializeFromCatsObjectToXmlResourceFile(catsList);
+				readCatsXmlFileToByteArray();
+			} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
+				e.printStackTrace();
+				throw new HTTPException(500);
+			} catch (TransformerException e) {
+				e.printStackTrace();
+				throw new HTTPException(500);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new HTTPException(500);
+			} catch (XPathExpressionException e) {				
+				e.printStackTrace();
+				throw new HTTPException(500);
+			} catch (URISyntaxException e) {				
+				e.printStackTrace();
+				throw new HTTPException(500);
+			}
+
+		return responseToClient("Cat created!");
 	}
 	
 	private StreamSource responseToClient(String msg) {
