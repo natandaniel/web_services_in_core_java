@@ -1,6 +1,6 @@
 # Web Services in core Java : 
 
-The purpose of the first three examples is to show how to quickly create and run SOAP or RESTful web services with core Java. These examples are kept simple to demonstrate fundamentals. Deployment into servlet containers or application containers is not demonstrated. Servlets from JEE are not used. 
+The purpose of the first three examples is to show how to quickly create and run SOAP or RESTful web services with core Java. These examples are kept simple to demonstrate fundamentals. Deployment into servlet containers or application containers is not demonstrated. Servlets from JEE are not used. Core Java 6 is enough to run all the examples, however, in the last two, I have used some functional code with forEach and lambdas for compact code making core Java 8 a requirement.
 
 1. [ws.soap.time](https://github.com/natandaniel/java_projects/tree/master/ws.soap.time)
 1. [ws.soap.cats](https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats)
