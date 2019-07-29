@@ -31,15 +31,17 @@ _Requirements_ : **core Java 8**
 
 A simple illustration of a **RESTful Web Service** built with **JAX-WS**. 
 
-Allows GETs, POSTs and DELETEs on the cats.xml resource.
+Allows GETs, POSTs, PUTs and DELETEs on the cats.xml resource.
 
 One can GET an up to date XML representation of the cats.xml resource.
 
 One can POST a new cat to the service and add a new object to the cats.xml resource.
 
+One can PUT an existing cat and unpdate the cats.xml resource.
+
 One can DELETE a cat from the server side resource cats.xml file.
 
-The purpose is to demonstrate how to build a RESTful (**REpresentational State Transfer**) web service with core Java. Clients and Servers communicate through the **HTTP (Hypertext Transfer Protocol)** protocol and request/respone messages are contained within the HTTP transport message (in the headers or in the body). No specific format is imposed to the messages as opposed to SOAP web services where messages are SOAP envelopes (XML documents).
+The purpose is to demonstrate how to build a RESTful (**REpresentational State Transfer**) web service with core Java. Clients and Servers communicate through the **HTTP (Hypertext Transfer Protocol)** protocol and request/respone messages are contained within the HTTP transport message (in the headers or in the body). No specific format is imposed to the messages as opposed to SOAP web services where messages are SOAP envelopes (XML documents). In this project, POSTs send information within the header for simplicity, but common practice is to use the body of the HTTP transport message.
 
 In a RESTFul web service, one can execute the **CRUD operations (CREATE, READ, UPDATE, DELETE)** with the appropriate **HTTP verbs (POST, GET, PUT, DELETE)**. These operations must be targeted at **a resource** server side (any informational item) that is uniquely identified with a **URI (Uniform Resource Identifier)**. The service has to return a relevant representation of the resource (a **MIME typed** representation, could be text/xml, text/plain etc) that captures the current state of the resource.
 
