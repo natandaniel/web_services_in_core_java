@@ -26,23 +26,33 @@ public class CatsClient {
 
 	private static final String GET = "GET";
 	private static final String POST = "POST";
+	private static final String PUT = "PUT";
 	private static final String DELETE = "DELETE";
+	
+	private static final String EMPTY = "";
 
 	private static final String POST_CAT_1 = "post_cat_1.xml";
 
 	public static void main(String[] args) throws Exception {
+
 		getCats();
 		getBritishShorthair();
-		postTestCat();
-		getTestCat();
+		postTurkishAngora();
+		getTurkishAngora();
 		getCats();
-		deleteTestCat();
+		deleteTurkishAngora();
+		getCats();
+		putBritishShorthair("SilverShaded",EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY);
+		getCats();
+		putBritishShorthair("BritishShorthair",EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY);
+		getCats();
+		putBritishShorthair(EMPTY,EMPTY,"White",EMPTY,EMPTY,EMPTY,EMPTY,EMPTY);
 		getCats();
 	}
 
 	private static void getCats() throws Exception {
 
-		System.out.println("Getting all the cats");
+		System.out.println("Getting all cats");
 
 		HttpURLConnection connection = getConnection(URL, "GET");
 		try {
@@ -57,7 +67,7 @@ public class CatsClient {
 
 		System.out.println("Getting the British Shorthair cat");
 
-		HttpURLConnection connection = getConnection(URL + "?name=British%20Shorthair", "GET");
+		HttpURLConnection connection = getConnection(URL + "?name=BritishShorthair", "GET");
 		try {
 			connection.connect();
 			print(connection, GET);
@@ -66,11 +76,11 @@ public class CatsClient {
 		}
 	}
 
-	private static void getTestCat() throws Exception {
+	private static void getTurkishAngora() throws Exception {
 
-		System.out.println("Getting the TestCat cat");
+		System.out.println("Getting the TurkishAngora cat");
 
-		HttpURLConnection connection = getConnection(URL + "?name=TestCat", GET);
+		HttpURLConnection connection = getConnection(URL + "?name=TurkishAngora", GET);
 		try {
 			connection.connect();
 			print(connection, GET);
@@ -79,9 +89,9 @@ public class CatsClient {
 		}
 	}
 
-	private static void postTestCat() throws Exception {
+	private static void postTurkishAngora() throws Exception {
 
-		System.out.println("Posting the TestCat cat");
+		System.out.println("Posting the TurkishAngora cat");
 
 		HttpURLConnection connection = getConnection(URL, POST);
 		try {
@@ -94,11 +104,28 @@ public class CatsClient {
 
 	}
 
-	private static void deleteTestCat() throws Exception {
+	private static void putBritishShorthair(String newName, String size, String colour, String avgWeight,
+			String avgAgeExpectancy, String coatLength, String grooming, String lifestyle) throws Exception {
 
-		System.out.println("deleting the TestCat cat");
+		System.out.println("Putting the British Shorthair cat");
 
-		HttpURLConnection connection = getConnection(URL + "?name=TestCat", DELETE);
+		HttpURLConnection connection = getConnection(URL + "?name=BritishShorthair&newName=" + newName + "&size=" + size
+				+ "&colour=" + colour + "&avgWeight=" + avgWeight + "&avgAgeExpectancy=" + avgAgeExpectancy
+				+ "&coatLength=" + coatLength + "&grooming=" + grooming + "&lifestyle=" + lifestyle, PUT);
+		try {
+			connection.connect();
+			print(connection, POST);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void deleteTurkishAngora() throws Exception {
+
+		System.out.println("deleting the TurkishAngora cat");
+
+		HttpURLConnection connection = getConnection(URL + "?name=TurkishAngora", DELETE);
 		try {
 			connection.connect();
 			print(connection, DELETE);
@@ -142,13 +169,9 @@ public class CatsClient {
 			e.printStackTrace();
 		}
 
-		System.out.println("Response : " + xml);
+		parseXml(xml);
 
-		if ("GET".equals(httpVerb)) {
-			System.out.println("GET - parsed xml : ");
-			parseXml(xml);
-		}
-
+		System.out.println("************************");
 	}
 
 	private static String readXmlFileToString(String path) throws FileNotFoundException, IOException {
@@ -183,6 +206,7 @@ public class CatsClient {
 	}
 
 	private static void parseXml(String xml) throws Exception {
+		
 		SAXParser parser;
 		try {
 			parser = SAXParserFactory.newInstance().newSAXParser();

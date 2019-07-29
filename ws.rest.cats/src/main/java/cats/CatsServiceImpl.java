@@ -55,6 +55,8 @@ public class CatsServiceImpl implements Provider<Source> {
 	private static final String POST = "POST";
 	private static final String PUT = "PUT";
 	private static final String DELETE = "DELETE";
+	
+	private static final String EMPTY = "";
 
 	private enum KEYS {
 		name, newName, size, colour, avgWeight, avgAgeExpectancy, coatLength, grooming, lifestyle
@@ -96,7 +98,11 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	private Source doGet(MessageContext msgCtx) throws HTTPException {
 
+		System.out.println("Handling GET request ...");
+
 		String queryString = (String) msgCtx.get(MessageContext.QUERY_STRING);
+
+		System.out.println("input query : " + queryString);
 
 		if (queryString == null) {
 			return new StreamSource(new ByteArrayInputStream(catsByteArray));
@@ -114,6 +120,8 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	private Source doPost(MessageContext msgCtx) {
 
+		System.out.println("Handling POST request ...");
+
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String, List> request = (Map<String, List>) msgCtx.get(MessageContext.HTTP_REQUEST_HEADERS);
 
@@ -126,7 +134,7 @@ public class CatsServiceImpl implements Provider<Source> {
 
 		// System.out.println("payload : " + payload);
 
-		String xml = "";
+		String xml = EMPTY;
 
 		for (String next : payload) {
 			xml += next.trim();
@@ -156,7 +164,7 @@ public class CatsServiceImpl implements Provider<Source> {
 			XPathFactory xpf = XPathFactory.newInstance();
 			XPath xp = xpf.newXPath();
 
-			xp.setNamespaceContext(new NSResolver("", nsUri.toString()));
+			xp.setNamespaceContext(new NSResolver(EMPTY, nsUri.toString()));
 
 			name = xp.evaluate("/create_cat/name", dom.getNode());
 			size = xp.evaluate("/create_cat/size", dom.getNode());
@@ -201,26 +209,32 @@ public class CatsServiceImpl implements Provider<Source> {
 	}
 
 	private Source doPut(MessageContext msgCtx) {
+
+		System.out.println("Handling PUT request ...");
+
 		String queryString = (String) msgCtx.get(MessageContext.QUERY_STRING);
 
+		System.out.println("input query : " + queryString);
+
 		if (queryString == null) {
-			throw new HTTPException(403);
+			System.out.println("Bad Request : expecting query string");
+			throw new HTTPException(400);
 		} else {
 
 			String name = getValueFromQueryKey(queryString, KEYS.name.toString());
+			System.out.println("Updating " + name);
 
 			if (name == null) {
-				throw new HTTPException(403);
+				System.out.println("Bad Request : expecting 'name' parameter");
+				throw new HTTPException(400);
 			}
 
 			if (!catsMap.containsKey(name)) {
+				System.out.println("Not found : " + name + " unknown");
 				throw new HTTPException(404);
 			}
 
 			Cat cat = catsMap.get(name);
-
-			catsList.remove(cat);
-			catsMap.remove(cat);
 
 			String newName = getValueFromQueryKey(queryString, KEYS.newName.toString());
 			String size = getValueFromQueryKey(queryString, KEYS.size.toString());
@@ -231,37 +245,39 @@ public class CatsServiceImpl implements Provider<Source> {
 			String grooming = getValueFromQueryKey(queryString, KEYS.grooming.toString());
 			String lifestyle = getValueFromQueryKey(queryString, KEYS.lifestyle.toString());
 
-			cat.setName(newName == null ? name : newName);
+			cat.setName(EMPTY.equals(newName)? name : newName);
 
-			if (size != null) {
+			if (!EMPTY.equals(size)) {
+				System.out.println("hello");
 				cat.setSize(size);
 			}
 
-			if (colour != null) {
+			if (!EMPTY.equals(colour)) {
 				cat.setColour(colour);
 			}
 
-			if (avgWeight != null) {
+			if (!EMPTY.equals(avgWeight)) {
+				System.out.println(avgWeight);
 				cat.setAvgWeight(Integer.valueOf(avgWeight));
 			}
 
-			if (avgAgeExpectancy != null) {
+			if (!EMPTY.equals(avgAgeExpectancy)) {
 				cat.setAvgAgeExpectancy(Integer.valueOf(avgAgeExpectancy));
 			}
 
-			if (coatLength != null) {
+			if (!EMPTY.equals(coatLength)) {
 				cat.setCoatLength(coatLength);
 			}
 
-			if (grooming != null) {
+			if (!EMPTY.equals(grooming)) {
 				cat.setGrooming(grooming);
 			}
 
-			if (lifestyle != null) {
+			if (!EMPTY.equals(lifestyle)) {
 				cat.setLifestyle(lifestyle);
 			}
 
-			catsList.add(cat);
+			catsMap.put(cat.getName(), cat);
 
 			try {
 				serializeCatsListToXmlFile(catsList);
@@ -277,7 +293,12 @@ public class CatsServiceImpl implements Provider<Source> {
 	}
 
 	private Source doDelete(MessageContext msgCtx) {
+
+		System.out.println("Handling DELETE request ...");
+
 		String query = (String) msgCtx.get(MessageContext.QUERY_STRING);
+
+		System.out.println("input query : " + query);
 
 		if (query == null) {
 			throw new HTTPException(403);
@@ -336,17 +357,18 @@ public class CatsServiceImpl implements Provider<Source> {
 
 	private String getValueFromQueryKey(String queryString, String key) {
 
-		System.out.println(queryString);
-
 		String[] keyValuePairs = queryString.split("&");
 
 		String value = null;
 
 		for (int i = 0; i < keyValuePairs.length; i++) {
 			if (key.equals(keyValuePairs[i].split("=")[0])) {
-				System.out.println(keyValuePairs[i].split("=")[0]);
-				value = keyValuePairs[i].split("=")[1];
-				System.out.println(value);
+				
+				if(keyValuePairs[i].split("=").length != 2) {
+					value=EMPTY;
+				}else {
+					value = keyValuePairs[i].split("=")[1];
+				}
 				break;
 			}
 		}
