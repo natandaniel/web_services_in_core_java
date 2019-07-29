@@ -1,4 +1,7 @@
 # Web Services in core Java : 
+
+The purpose of these examples is to show how to quickly create and run SOAP or RESTful web services with core Java. Examples are kept simple and demonstrate fundamentals.
+
 1. [ws.soap.time](https://github.com/natandaniel/java_projects/tree/master/ws.soap.time)
 1. [ws.soap.cats](https://github.com/natandaniel/java_projects/tree/master/ws.soap.cats)
 1. [ws.rest.cats](https://github.com/natandaniel/java_projects/tree/master/ws.rest.cats)
